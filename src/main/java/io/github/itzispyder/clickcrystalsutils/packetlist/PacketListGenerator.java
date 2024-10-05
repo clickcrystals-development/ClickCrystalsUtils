@@ -24,24 +24,39 @@ public class PacketListGenerator implements Generator {
     public String generate() {
         StringBuilder result = new StringBuilder();
 
-        result.append("public static final Map<Class<Packet<?>>, String> C2S = new HashMap<>() {{\n");
-        for (String packet: requestPackets(C2S))
-            result.append("    this.put(%1$s.class, \"%1$s\");\n".formatted(packet));
-        result.append("}};");
+        result.append("package io.github.itzispyder.clickcrystals.client.networking;\n\n");
+
+        result.append("import net.minecraft.network.packet.Packet;\n");
+        result.append("import net.minecraft.network.packet.c2s.play.*;\n");
+        result.append("import net.minecraft.network.packet.s2c.play.*;\n\n");
+
+        result.append("import java.util.HashMap;\n");
+        result.append("import java.util.Map;\n\n");
+
+        result.append("public class PacketMapper {\n\n");
+
+        result.append("    public static final Map<Class<? extends Packet<?>>, Info> C2S = new HashMap<>() {{\n");
+        for (Info packet: requestPackets(C2S))
+            result.append("        this.put(%2$s.class, new Info(\"%1$s\", \"%2$s\"));\n".formatted(packet.id, packet.className));
+        result.append("    }};");
 
         result.append("\n\n");
 
-        result.append("public static final Map<Class<Packet<?>>, String> S2C = new HashMap<>() {{\n");
-        for (String packet: requestPackets(S2C))
-            result.append("    this.put(%1$s.class, \"%1$s\");\n".formatted(packet));
-        result.append("}};");
+        result.append("    public static final Map<Class<? extends Packet<?>>, Info> S2C = new HashMap<>() {{\n");
+        for (Info packet: requestPackets(S2C))
+            result.append("        this.put(%2$s.class, new Info(\"%1$s\", \"%2$s\"));\n".formatted(packet.id, packet.className));
+        result.append("    }};\n\n");
+
+        result.append("    public record Info(String id, String className) {}\n");
+
+        result.append("}\n");
 
         return result.toString();
     }
 
-    public List<String> requestPackets(String url) {
+    public List<Info> requestPackets(String url) {
         try {
-            List<String> result = new ArrayList<>();
+            List<Info> result = new ArrayList<>();
             URL link = URI.create(url).toURL();
             Document doc = Jsoup.parse(link, 0);
 
@@ -52,7 +67,9 @@ public class PacketListGenerator implements Generator {
                 if (packetName == null)
                     continue;
                 String name = packetName.text();
-                result.add(name);
+                if (!name.matches("^.*(S2C|C2S)Packet$"))
+                    continue;
+                result.add(new Info(name));
             }
 
             return result;
@@ -60,6 +77,14 @@ public class PacketListGenerator implements Generator {
         catch (Exception ex) {
             ex.printStackTrace();
             return new ArrayList<>();
+        }
+    }
+
+    public record Info(String id, String className) {
+        public Info(String className) {
+            this(className.substring(0, 1).toLowerCase()
+                    + className.substring(1).replaceAll("(S2C|C2S)Packet", ""),
+                    className);
         }
     }
 }
