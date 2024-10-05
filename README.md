@@ -6,8 +6,8 @@ Useful terminal commands for ClickCrystals development.
 There will be more added in the future.
 
 ```yml
-Name: modules
-Usage: modules
+Name: module-table
+Usage: module-table
 Description: Generates and copies to your clipboard a markdown table of modules and their 
   descriptions by reading your local file system for 
   ClickCrystals module .java files.
@@ -20,6 +20,13 @@ Description: Generates and copies to your clipboard a Java HashMap of Packet cla
   with the specified minecraftVersion to get all possible packet names from that 
   Minecraft Version.
 ```
+```yml
+Name: packet-table
+Usage: packet-table
+Description: Generates and copies to your clipboard a markdown table of packets and their 
+  scripting ID
+```
+
 
 ### How to Use?
 (Optional, but it's recommended to create a batch file for this)

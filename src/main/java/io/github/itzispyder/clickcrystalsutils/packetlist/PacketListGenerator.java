@@ -14,14 +14,38 @@ import java.util.List;
 public class PacketListGenerator implements Generator {
 
     private final String C2S, S2C;
+    private final boolean tableOnly;
 
-    public PacketListGenerator(String minecraftVersion) {
+    public PacketListGenerator(String minecraftVersion, boolean tableOnly) {
         this.C2S = "https://maven.fabricmc.net/docs/yarn-%s+build.1/net/minecraft/network/packet/c2s/play/package-summary.html".formatted(minecraftVersion);
         this.S2C = "https://maven.fabricmc.net/docs/yarn-%s+build.1/net/minecraft/network/packet/s2c/play/package-summary.html".formatted(minecraftVersion);
+        this.tableOnly = tableOnly;
     }
 
     @Override
     public String generate() {
+        if (tableOnly)
+            return generateTable();
+        else
+            return generateCode();
+    }
+
+    public String generateTable() {
+        StringBuilder result = new StringBuilder();
+
+        result.append("| **Packet** | **Type** | **Scripting ID** |\n");
+        result.append("|:----------:|:--------:|:---------------:|\n");
+
+        for (Info packet: requestPackets(C2S))
+            result.append("| %s | C2S | %s |\n".formatted(packet.className, packet.id));
+        result.append("| | |\n");
+        for (Info packet: requestPackets(S2C))
+            result.append("| %s | S2C | %s |\n".formatted(packet.className, packet.id));
+
+        return result.toString();
+    }
+
+    public String generateCode() {
         StringBuilder result = new StringBuilder();
 
         result.append("package io.github.itzispyder.clickcrystals.client.networking;\n\n");

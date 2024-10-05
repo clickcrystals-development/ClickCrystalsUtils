@@ -6,16 +6,20 @@ import io.github.itzispyder.clickcrystalsutils.packetlist.PacketListGenerator;
 public class Main {
 
     public static void main(String[] args) {
-        _assert(args.length >= 1, "Please provide an operation name: ex. -modules");
+        _assert(args.length >= 1, "Please provide an operation name: ex. -module-table");
 
         String operation = args[0];
         Generator gen;
 
         switch (operation) {
-            case "modules" -> gen = new ModuleTableGenerator();
-            case "packets" -> {
+            case "module-table", "modules" -> gen = new ModuleTableGenerator();
+            case "packet-code", "packets" -> {
                 _assert(args.length >= 2, "Please provide a Minecraft version! ex. -1.21");
-                gen = new PacketListGenerator(args[1].substring(1));
+                gen = new PacketListGenerator(args[1].substring(1), false);
+            }
+            case "packet-table" -> {
+                _assert(args.length >= 2, "Please provide a Minecraft version! ex. -1.21");
+                gen = new PacketListGenerator(args[1].substring(1), true);
             }
             default -> gen = null;
         }
