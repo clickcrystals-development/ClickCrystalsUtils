@@ -1,5 +1,6 @@
 package io.github.itzispyder.clickcrystalsutils.versionmappings;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -23,12 +24,14 @@ public class VersionMappingsGenerator implements Generator {
 
     private static final String MIN_VERSION = "1.20";
 
-    private final String FABRIC_MC_VERSIONS;
-    private final String CC_VERSION_MAPPINGS;
+    private final String FABRIC_MC_VERSIONS, CC_VERSION_MAPPINGS, GITHUB_RELEASES;
+
+    private String latestVersion;
 
     public VersionMappingsGenerator() {
         FABRIC_MC_VERSIONS = "https://maven.fabricmc.net/net/fabricmc/yarn/";
         CC_VERSION_MAPPINGS = "https://itzispyder.github.io/clickcrystals/info.json";
+        GITHUB_RELEASES = "https://api.github.com/repos/clickcrystals-development/ClickCrystals/releases?per_page=100";
     }
 
     public static void main(String[] args) {
@@ -74,7 +77,43 @@ public class VersionMappingsGenerator implements Generator {
             reader.close();
             is.close();
 
+            latestVersion = obj.get("latest").getAsString();
             return obj.get("versionMappings").getAsJsonObject();
+        }
+        catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    private List<String> fetchGithubAssets(int pageNumber) {
+        try {
+            List<String> list = new ArrayList<>();
+
+            URL url = URI.create("%s&page=%s".formatted(GITHUB_RELEASES, pageNumber)).toURL();
+            InputStream is = url.openStream();
+            InputStreamReader reader = new InputStreamReader(is);
+
+            JsonArray arr = JsonParser.parseReader(reader).getAsJsonArray();
+
+            reader.close();
+            is.close();
+
+            boolean fetchAgain = arr.size() == 100;
+
+            for (var i = 0; i < arr.size(); i++) {
+                JsonObject release = arr.get(i).getAsJsonObject();
+                JsonArray assets = release.get("assets").getAsJsonArray();
+                String releaseUri = release.get("html_url").getAsString();
+
+                for (JsonElement asset : assets) {
+                    String assetName = asset.getAsJsonObject().get("name").getAsString();
+                    list.add("[%s](%s)".formatted(assetName, releaseUri));
+                }
+            }
+
+            if (fetchAgain)
+                list.addAll(fetchGithubAssets(pageNumber + 1));
+            return list;
         }
         catch (Exception ex) {
             throw new RuntimeException(ex);
@@ -91,14 +130,34 @@ public class VersionMappingsGenerator implements Generator {
                 """.trim());
         builder.append('\n');
 
+        System.out.println("fetching githubAssets...");
+        List<String> allAssets = fetchGithubAssets(1);
+
+        System.out.println("fetching versionMappings...");
         JsonObject mappings = fetchVersionMapping();
+
+        System.out.println("fetching fabricMinecraftVersions...");
+        System.out.println();
+
         for (String version: fetchMcVersions()) {
             JsonElement mappedVersion = mappings.get(version);
 
             if (mappedVersion == null || mappedVersion.isJsonNull())
                 builder.append("| ").append(version).append(" | not supported |\n");
-            else
-                builder.append("| ").append(version).append(" | ").append(mappedVersion.getAsString()).append(" |\n");
+            else {
+                String asset = "ClickCrystals-%s-(latestVersion).jar".formatted(mappedVersion);
+                for (String name : allAssets) {
+                    if (name.contains(mappedVersion.getAsString())) {
+                        asset = name;
+                        break;
+                    }
+                }
+
+                if (asset.contains(latestVersion))
+                    asset += " *recommended";
+
+                builder.append("| %s | %s |\n".formatted(version, asset));
+            }
 
             if (MIN_VERSION.equals(version))
                 break;

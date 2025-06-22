@@ -45,4 +45,23 @@ Then in terminal:
 Happy ClickCrystals coding!
 
 
+| What You Have | What to get                                                                                                                   |
+|:--------------|:------------------------------------------------------------------------------------------------------------------------------|
+| higher..      | how is that even possible?                                                                                                    |
+| 1.21.6        | not supported                                                                                                                 |
+| 1.21.5        | [ClickCrystals-1.21.5-1.3.0.jar](https://github.com/clickcrystals-development/ClickCrystals/releases/tag/v1.3.0) *recommended |
+| 1.21.4        | not supported                                                                                                                 |
+| 1.21.3        | not supported                                                                                                                 |
+| 1.21.2        | not supported                                                                                                                 |
+| 1.21.1        | [ClickCrystals-1.21.5-1.3.0.jar](https://github.com/clickcrystals-development/ClickCrystals/releases/tag/v1.3.0) *recommended |
+| 1.21          | [ClickCrystals-1.21.5-1.3.0.jar](https://github.com/clickcrystals-development/ClickCrystals/releases/tag/v1.3.0) *recommended |
+| 1.20.6        | [ClickCrystals-1.20.6-1.2.9.jar](https://github.com/clickcrystals-development/ClickCrystals/releases/tag/v1.2.9)              |
+| 1.20.5        | not supported                                                                                                                 |
+| 1.20.4        | [ClickCrystals-1.20.4-1.2.9.jar](https://github.com/clickcrystals-development/ClickCrystals/releases/tag/v1.2.9)              |
+| 1.20.3        | [ClickCrystals-1.20.4-1.2.9.jar](https://github.com/clickcrystals-development/ClickCrystals/releases/tag/v1.2.9)              |
+| 1.20.2        | [ClickCrystals-1.20.2-1.2.9.jar](https://github.com/clickcrystals-development/ClickCrystals/releases/tag/v1.2.9)              |
+| 1.20.1        | [ClickCrystals-1.20-1.2.9.jar](https://github.com/clickcrystals-development/ClickCrystals/releases/tag/v1.2.9)                |
+| 1.20          | [ClickCrystals-1.20-1.2.9.jar](https://github.com/clickcrystals-development/ClickCrystals/releases/tag/v1.2.9)                |
+| ..lower       | cry                                                                                                                           |
+
 
