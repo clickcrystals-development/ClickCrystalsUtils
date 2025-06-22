@@ -2,6 +2,7 @@ package io.github.itzispyder.clickcrystalsutils;
 
 import io.github.itzispyder.clickcrystalsutils.moduletable.ModuleTableGenerator;
 import io.github.itzispyder.clickcrystalsutils.packetlist.PacketListGenerator;
+import io.github.itzispyder.clickcrystalsutils.versionmappings.VersionMappingsGenerator;
 
 public class Main {
 
@@ -13,6 +14,7 @@ public class Main {
 
         switch (operation) {
             case "module-table", "modules" -> gen = new ModuleTableGenerator();
+            case "versions", "version-mappings" -> gen = new VersionMappingsGenerator();
             case "packet-code", "packets" -> {
                 _assert(args.length >= 2, "Please provide a Minecraft version! ex. -1.21");
                 gen = new PacketListGenerator(args[1].substring(1), false);
