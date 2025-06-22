@@ -17,7 +17,7 @@ jar {
 }
 
 group = 'io.github.itzispyder'
-version = '1.0'
+version = project.projectVersion
 
 repositories {
     mavenCentral()
