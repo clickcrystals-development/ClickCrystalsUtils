@@ -21,7 +21,7 @@ import java.util.zip.ZipInputStream;
 public class MobHeadGenerator implements Generator {
 
     public static void main(String[] args) {
-        MobHeadGenerator gen = new MobHeadGenerator("1.21.5", GenType.CODE);
+        MobHeadGenerator gen = new MobHeadGenerator("1.21.5", GenType.RAW);
         System.out.println(gen.generateAndCopy());
     }
 

@@ -41,7 +41,7 @@
 | 39      | egg                           | not a living entity                                                                                                    |
 | 40      | elder_guardian                | ![icon.elder_guardian](src\main\resources\assets\clickcrystals\textures\display\icons\entities\elder_guardian.png)     |
 | 41      | end_crystal                   | not a living entity                                                                                                    |
-| 42      | ender_dragon                  | not a living entity                                                                                                    |
+| 42      | ender_dragon                  | ![icon.ender_dragon](src\main\resources\assets\clickcrystals\textures\display\icons\entities\ender_dragon.png)         |
 | 43      | ender_pearl                   | not a living entity                                                                                                    |
 | 44      | enderman                      | ![icon.enderman](src\main\resources\assets\clickcrystals\textures\display\icons\entities\enderman.png)                 |
 | 45      | endermite                     | ![icon.endermite](src\main\resources\assets\clickcrystals\textures\display\icons\entities\endermite.png)               |
@@ -102,7 +102,7 @@
 | 100     | piglin                        | ![icon.piglin](src\main\resources\assets\clickcrystals\textures\display\icons\entities\piglin.png)                     |
 | 101     | piglin_brute                  | ![icon.piglin_brute](src\main\resources\assets\clickcrystals\textures\display\icons\entities\piglin_brute.png)         |
 | 102     | pillager                      | ![icon.pillager](src\main\resources\assets\clickcrystals\textures\display\icons\entities\pillager.png)                 |
-| 103     | player                        | not a living entity                                                                                                    |
+| 103     | player                        | ![icon.player](src\main\resources\assets\clickcrystals\textures\display\icons\entities\player.png)                     |
 | 104     | polar_bear                    | ![icon.polar_bear](src\main\resources\assets\clickcrystals\textures\display\icons\entities\polar_bear.png)             |
 | 105     | potentially_executes_commands | not a living entity                                                                                                    |
 | 106     | pufferfish                    | ![icon.pufferfish](src\main\resources\assets\clickcrystals\textures\display\icons\entities\pufferfish.png)             |
@@ -145,7 +145,7 @@
 | 143     | wind_charge                   | not a living entity                                                                                                    |
 | 144     | witch                         | ![icon.witch](src\main\resources\assets\clickcrystals\textures\display\icons\entities\witch.png)                       |
 | 145     | wither                        | ![icon.wither](src\main\resources\assets\clickcrystals\textures\display\icons\entities\wither.png)                     |
-| 146     | wither_skeleton               | not a living entity                                                                                                    |
+| 146     | wither_skeleton               | ![icon.wither_skeleton](src\main\resources\assets\clickcrystals\textures\display\icons\entities\wither_skeleton.png)   |
 | 147     | wither_skull                  | not a living entity                                                                                                    |
 | 148     | wolf                          | ![icon.wolf](src\main\resources\assets\clickcrystals\textures\display\icons\entities\wolf.png)                         |
 | 149     | zoglin                        | ![icon.zoglin](src\main\resources\assets\clickcrystals\textures\display\icons\entities\zoglin.png)                     |
