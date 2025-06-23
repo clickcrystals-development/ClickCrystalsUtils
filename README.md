@@ -40,6 +40,12 @@ Description: Generates and copies to your clipboard a markdown table of Minecraf
   folder. The last '-raw' argument is optional. Raw will let you view all available Base64 textures, while 
   executing this command without raw will give you are shorter concise list with no texture variants (only one texture per entity).
 ```
+```yml
+Name: entity-textures
+Usage: entity-textures -minecraftVersion -code
+Description: Generates and copies to your clipboard a Java HashMap of Entity classes mapped to their respective
+  fetched head texture identifiers.
+```
 
 
 ### How to Use?

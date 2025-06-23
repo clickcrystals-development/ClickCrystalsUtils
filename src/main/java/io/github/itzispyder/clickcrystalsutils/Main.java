@@ -26,7 +26,16 @@ public class Main {
             }
             case "mob-heads", "mob-textures", "entity-textures", "entity-heads" -> {
                 _assert(args.length >= 2, "Please provide a Minecraft version! ex. -1.21");
-                gen = new MobHeadGenerator(args[1].substring(1), args.length >= 3 && "-raw".equals(args[2]));
+                MobHeadGenerator.GenType type = MobHeadGenerator.GenType.DEFAULT;
+                if (args.length == 2) {
+                    gen = new MobHeadGenerator(args[1].substring(1), type);
+                    break;
+                }
+                switch (args[2]) {
+                    case "-raw" -> type = MobHeadGenerator.GenType.RAW;
+                    case "-code" -> type = MobHeadGenerator.GenType.CODE;
+                }
+                gen = new MobHeadGenerator(args[1].substring(1), type);
             }
             default -> gen = null;
         }
