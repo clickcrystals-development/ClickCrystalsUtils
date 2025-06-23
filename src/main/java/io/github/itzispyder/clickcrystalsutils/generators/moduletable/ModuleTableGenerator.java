@@ -1,4 +1,4 @@
-package io.github.itzispyder.clickcrystalsutils.moduletable;
+package io.github.itzispyder.clickcrystalsutils.generators.moduletable;
 
 import io.github.itzispyder.clickcrystalsutils.Generator;
 import io.github.itzispyder.clickcrystalsutils.util.StringUtils;

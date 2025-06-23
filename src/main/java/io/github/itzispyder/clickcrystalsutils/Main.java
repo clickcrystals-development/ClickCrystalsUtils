@@ -1,8 +1,8 @@
 package io.github.itzispyder.clickcrystalsutils;
 
-import io.github.itzispyder.clickcrystalsutils.moduletable.ModuleTableGenerator;
-import io.github.itzispyder.clickcrystalsutils.packetlist.PacketListGenerator;
-import io.github.itzispyder.clickcrystalsutils.versionmappings.VersionMappingsGenerator;
+import io.github.itzispyder.clickcrystalsutils.generators.moduletable.ModuleTableGenerator;
+import io.github.itzispyder.clickcrystalsutils.generators.packetlist.PacketListGenerator;
+import io.github.itzispyder.clickcrystalsutils.generators.versionmappings.VersionMappingsGenerator;
 
 public class Main {
 

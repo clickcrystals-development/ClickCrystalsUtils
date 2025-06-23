@@ -1,4 +1,4 @@
-package io.github.itzispyder.clickcrystalsutils.versionmappings;
+package io.github.itzispyder.clickcrystalsutils.generators.versionmappings;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;

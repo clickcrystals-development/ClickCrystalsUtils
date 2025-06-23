@@ -1,4 +1,4 @@
-package io.github.itzispyder.clickcrystalsutils.packetlist;
+package io.github.itzispyder.clickcrystalsutils.generators.packetlist;
 
 import io.github.itzispyder.clickcrystalsutils.Generator;
 import org.jsoup.Jsoup;
