@@ -32,6 +32,14 @@ Usage: version-mappings
 Description: Generates and copies to your clipboard a markdown table of Minecraft versions and their provided 
   ClickCrystals versions, linked to their releases tab
 ```
+```yml
+Name: entity-textures
+Usage: entity-textures -minecraftVersion -raw
+Description: Generates and copies to your clipboard a markdown table of Minecraft entities and their 8x8 head textures!
+  These textures are saved as .png files in your 'src/main/resources/assets/clickcrystals/textures/display/icons/entities'
+  folder. The last '-raw' argument is optional. Raw will let you view all available Base64 textures, while 
+  executing this command without raw will give you are shorter concise list with no texture variants (only one texture per entity).
+```
 
 
 ### How to Use?
