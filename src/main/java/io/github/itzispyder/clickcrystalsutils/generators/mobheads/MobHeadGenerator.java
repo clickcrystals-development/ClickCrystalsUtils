@@ -29,6 +29,7 @@ public class MobHeadGenerator implements Generator {
     private final String ALL_MOB_HEADS_REPOSITORY, ENTITY_TYPES;
     private final Map<String, String> rawTextureMap, texturePathMap;
     private final List<String> entityTypes, entityClasses;
+    private final List<String> ENTITY_CLASS_BLACKLIST = List.of("LivingEntity", "PatrolEntity");
     private final GenType genType;
 
     public MobHeadGenerator(String minecraftVersion, GenType genType) {
@@ -74,7 +75,7 @@ public class MobHeadGenerator implements Generator {
     }
 
     private boolean isEntityClassName(String name) {
-        return name.contains("Entity") && !name.contains(".") && !name.contains("Abstract");
+        return name.contains("Entity") && !name.contains(".") && !name.contains("Abstract") && !ENTITY_CLASS_BLACKLIST.contains(name);
     }
 
     public List<String> fetchEntityTypes() {
@@ -279,15 +280,14 @@ public class MobHeadGenerator implements Generator {
                                 
                 import io.github.itzispyder.clickcrystals.Global;
                 import io.github.itzispyder.clickcrystals.util.minecraft.render.RenderUtils;
-                import io.github.itzispyder.clickcrystals.util.misc.ManualMap;
                 import net.minecraft.client.gui.DrawContext;
                 import net.minecraft.entity.Entity;
                 import net.minecraft.entity.boss.WitherEntity;
-                import net.minecraft.entity.boss.dragon.EnderDragonEntity;
                 import net.minecraft.entity.mob.*;
                 import net.minecraft.entity.passive.*;
                 import net.minecraft.util.Identifier;
                                 
+                import java.util.HashMap;
                 import java.util.Map;
                                 
                 public class MobHeadBrush implements Global {
