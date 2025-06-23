@@ -25,6 +25,15 @@ public class MobHeadGenerator implements Generator {
         System.out.println(gen.generateAndCopy());
     }
 
+    private final Map<String, String> DEFAULT_TEXTURE_OVERRIDES = new HashMap<>() {{
+        this.put("zombie", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHBzOi8vcy5uYW1lbWMuY29tL2kvNzg1MjMxYTA4Y2Y0ZDlmMS5wbmcifX19");
+        this.put("skeleton", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHBzOi8vcy5uYW1lbWMuY29tL2kvNDU1N2I1MDJjMDQxZDcyNC5wbmcifX19");
+        this.put("player", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHBzOi8vcy5uYW1lbWMuY29tL2kvOWYyNGFiNjZiZDRmNjRkZS5wbmcifX19");
+        this.put("wither_skeleton", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHBzOi8vcy5uYW1lbWMuY29tL2kvZmQ0ZTc0MmIyNzU1ZDEyYS5wbmcifX19");
+        this.put("ender_dragon", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHBzOi8vcy5uYW1lbWMuY29tL2kvY2U4YzhkYmE5MGZjY2VmMS5wbmcifX19");
+        this.put("piglin", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHBzOi8vcy5uYW1lbWMuY29tL2kvZGQ1NDM1ZjI2N2ZhOTk1ZC5wbmcifX19");
+    }};
+
     private final String BOSS_PACKAGE, MOBS_PACKAGE, PASSIVE_PACKAGE;
     private final String ALL_MOB_HEADS_REPOSITORY, ENTITY_TYPES;
     private final Map<String, String> rawTextureMap, texturePathMap;
@@ -165,15 +174,23 @@ public class MobHeadGenerator implements Generator {
         int total = entityTypes.size();
         int order = 1;
 
+        rawTextureMap.putAll(DEFAULT_TEXTURE_OVERRIDES);
+
         System.out.println("matching entity types...");
         for (String entityType : entityTypes)
             System.out.println("entity -> " + entityType);
 
-        for (String entityType: entityTypes) {
+        entityTypeLoop: for (String entityType: entityTypes) {
+            for (Map.Entry<String, String> entry : rawTextureMap.entrySet()) {
+                if (entry.getKey().equals(entityType)) {
+                    createTexture(destination, entityType, entry.getValue(), order++, total);
+                    continue entityTypeLoop;
+                }
+            }
             for (Map.Entry<String, String> entry : rawTextureMap.entrySet()) {
                 if (entry.getKey().contains(entityType)) {
                     createTexture(destination, entityType, entry.getValue(), order++, total);
-                    break;
+                    continue entityTypeLoop;
                 }
             }
         }
@@ -345,7 +362,7 @@ public class MobHeadGenerator implements Generator {
         for (String entityType : entityTypes) {
             String path = texturePathMap.get(entityType);
             if (path == null)
-                builder.append("| %s | %s | not a living entity |\n".formatted(order++, entityType, entityType));
+                builder.append("| %s | %s | not a living entity |\n".formatted(order++, entityType));
             else
                 builder.append("| %s | %s | ![icon.%s](%s) |\n".formatted(order++, entityType, entityType, path));
         }
