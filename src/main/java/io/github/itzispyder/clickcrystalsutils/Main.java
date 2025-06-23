@@ -1,5 +1,6 @@
 package io.github.itzispyder.clickcrystalsutils;
 
+import io.github.itzispyder.clickcrystalsutils.generators.mobheads.MobHeadGenerator;
 import io.github.itzispyder.clickcrystalsutils.generators.moduletable.ModuleTableGenerator;
 import io.github.itzispyder.clickcrystalsutils.generators.packetlist.PacketListGenerator;
 import io.github.itzispyder.clickcrystalsutils.generators.versionmappings.VersionMappingsGenerator;
@@ -22,6 +23,10 @@ public class Main {
             case "packet-table" -> {
                 _assert(args.length >= 2, "Please provide a Minecraft version! ex. -1.21");
                 gen = new PacketListGenerator(args[1].substring(1), true);
+            }
+            case "mob-heads", "mob-textures", "entity-textures", "entity-heads" -> {
+                _assert(args.length >= 2, "Please provide a Minecraft version! ex. -1.21");
+                gen = new MobHeadGenerator(args[1].substring(1), args.length >= 3 && "-raw".equals(args[2]));
             }
             default -> gen = null;
         }

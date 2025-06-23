@@ -58,6 +58,9 @@ public class ModuleTableGenerator implements Generator {
     }
 
     public static String readFileToRow(File file) throws Exception {
+        if (file == null || file.isDirectory())
+            return null;
+
         FileInputStream fis = new FileInputStream(file);
         String contents = new String(fis.readAllBytes());
         fis.close();
