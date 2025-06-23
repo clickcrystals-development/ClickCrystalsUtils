@@ -293,6 +293,7 @@ public class MobHeadGenerator implements Generator {
                 public class MobHeadBrush implements Global {
                                 
                     public static final Map<Class<? extends Entity>, Identifier> REGISTRY = new HashMap<>() {{
+                        this.put(EnderDragonEntity.class, Identifier.of(modId, "textures/display/icons/entities/enderdragon.png"));
                 """.trim());
         builder.append('\n');
 
