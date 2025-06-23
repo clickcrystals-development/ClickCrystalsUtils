@@ -283,6 +283,7 @@ public class MobHeadGenerator implements Generator {
                 import net.minecraft.client.gui.DrawContext;
                 import net.minecraft.entity.Entity;
                 import net.minecraft.entity.boss.WitherEntity;
+                import net.minecraft.entity.boss.dragon.EnderDragonEntity;
                 import net.minecraft.entity.mob.*;
                 import net.minecraft.entity.passive.*;
                 import net.minecraft.util.Identifier;
