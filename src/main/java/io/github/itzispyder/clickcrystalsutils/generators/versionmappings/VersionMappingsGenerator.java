@@ -146,8 +146,13 @@ public class VersionMappingsGenerator implements Generator {
                 builder.append("| ").append(version).append(" | not supported |\n");
             else {
                 String asset = "ClickCrystals-%s-(latestVersion).jar".formatted(mappedVersion);
+                Pattern assetPattern = Pattern.compile("\\[ClickCrystals-([\\d.]+)-([\\d.]+)\\.jar\\]\\(.*\\)");
+
                 for (String name : allAssets) {
-                    if (name.contains(mappedVersion.getAsString())) {
+                    Matcher assetMatcher = assetPattern.matcher(name);
+                    String assetMcVer = assetMatcher.group(1);
+
+                    if (assetMcVer.equals(mappedVersion.getAsString())) {
                         asset = name;
                         break;
                     }
