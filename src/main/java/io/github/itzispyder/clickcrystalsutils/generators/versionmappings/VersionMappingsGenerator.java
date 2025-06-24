@@ -150,8 +150,12 @@ public class VersionMappingsGenerator implements Generator {
 
                 for (String name : allAssets) {
                     Matcher assetMatcher = assetPattern.matcher(name);
-                    String assetMcVer = assetMatcher.group(1);
+                    if (!assetMatcher.matches()) {
+                        System.out.println("INVALID ASSET FORMAT -> " + name);
+                        continue;
+                    }
 
+                    String assetMcVer = assetMatcher.group(1);
                     if (assetMcVer.equals(mappedVersion.getAsString())) {
                         asset = name;
                         break;
