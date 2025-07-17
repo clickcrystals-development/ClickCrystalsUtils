@@ -21,7 +21,7 @@ import java.util.zip.ZipInputStream;
 public class MobHeadGenerator implements Generator {
 
     public static void main(String[] args) {
-        MobHeadGenerator gen = new MobHeadGenerator("1.21.5", GenType.RAW);
+        MobHeadGenerator gen = new MobHeadGenerator("1.21.5", GenType.DEFAULT);
         System.out.println(gen.generateAndCopy());
     }
 
@@ -264,7 +264,7 @@ public class MobHeadGenerator implements Generator {
                     save.setRGB(x, y, img.getRGB(x + 8, y + 8));
             ImageIO.write(save, "png", file);
 
-            texturePathMap.put(name, file.getPath());
+            texturePathMap.put(name, file.getPath().replace(File.separatorChar, '/'));
         }
         catch (Exception ex) {
             System.out.println("TEXTURE CREATION FAILED -> " + file.getPath());
