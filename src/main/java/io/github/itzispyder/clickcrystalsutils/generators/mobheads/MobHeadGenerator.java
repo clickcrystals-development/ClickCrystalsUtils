@@ -33,6 +33,9 @@ public class MobHeadGenerator implements Generator {
         this.put("ender_dragon", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHBzOi8vcy5uYW1lbWMuY29tL2kvY2U4YzhkYmE5MGZjY2VmMS5wbmcifX19");
         this.put("piglin", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHBzOi8vcy5uYW1lbWMuY29tL2kvZGQ1NDM1ZjI2N2ZhOTk1ZC5wbmcifX19");
     }};
+    private final Map<String, String> DEFAULT_RAW_NAME_TO_ENTITY_TYPE_OVERRIDES = new HashMap<>() {{
+        this.put("trader_brown_llama", "trader_llama");
+    }};
 
     private final String BOSS_PACKAGE, MOBS_PACKAGE, PASSIVE_PACKAGE;
     private final String ALL_MOB_HEADS_REPOSITORY, ENTITY_TYPES;
@@ -228,7 +231,8 @@ public class MobHeadGenerator implements Generator {
                         .getAsJsonArray("properties").get(0).getAsJsonObject()
                         .getAsJsonPrimitive("value").getAsString();
 
-                rawTextureMap.put(entry.getKey(), texture);
+                String readKey = DEFAULT_RAW_NAME_TO_ENTITY_TYPE_OVERRIDES.getOrDefault(entry.getKey(), entry.getKey());
+                rawTextureMap.put(readKey, texture);
             }
         }
         catch (Exception ex) {
