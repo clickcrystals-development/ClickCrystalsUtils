@@ -23,6 +23,7 @@ import java.util.regex.Pattern;
 
         <int>               integer
         <num>               number
+        <vec>               singular relative vector component              aka <x>,<y>,<z>,<pitch>,<yaw>
         <comparator>        > < == >= <= !=
         <identifier>        :direct_identifier OR #indirect_identifier
         ...                 literal
@@ -49,6 +50,7 @@ public class FormatParser {
                 matches.add(matcher.group(1));
             return ComponentLookup.withOptional(arg, new MultiLiteralGroupComponent(matches));
         }));
+        this.add(new ComponentLookup<>("<(x|y|z|pitch|yaw|vec)>\\??", arg -> ComponentLookup.withOptional(arg, new VectorValueGroupComponent())));
     }};
 
     public static void register(Format destination, String input) {
