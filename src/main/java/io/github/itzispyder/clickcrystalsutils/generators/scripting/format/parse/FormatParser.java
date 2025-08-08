@@ -41,8 +41,8 @@ public class FormatParser {
         this.add(new ComponentLookup<>("<identifier>\\??", arg -> ComponentLookup.withOptional(arg, new IdentifierGroupComponent())));
         this.add(new ComponentLookup<>("...\\??", arg -> ComponentLookup.withOptional(arg, new LiteralGroupComponent())));
         this.add(new ComponentLookup<>("\"...\"\\??", arg -> ComponentLookup.withOptional(arg, new QuoteGroupComponent())));
-        this.add(new ComponentLookup<>("\\w+\\??", arg -> ComponentLookup.withOptional(arg, new LiteralGroupComponent(arg))));
-        this.add(new ComponentLookup<>("\\((\\w+\\|?)+\\)\\??", arg -> {
+        this.add(new ComponentLookup<>("!?\\w+\\??", arg -> ComponentLookup.withOptional(arg, new LiteralGroupComponent(arg))));
+        this.add(new ComponentLookup<>("\\((!?\\w+\\|?)+\\)\\??", arg -> {
             Matcher matcher = Pattern.compile("(\\w+)\\|?").matcher(arg);
             List<String> matches = new ArrayList<>();
             while (matcher.find())
