@@ -46,6 +46,16 @@ Usage: entity-textures -minecraftVersion -code
 Description: Generates and copies to your clipboard a Java HashMap of Entity classes mapped to their respective
   fetched head texture identifiers.
 ```
+```yml
+Name: scripting
+Usage: scripting -regex
+Description: Generates and copies to your clipboard a long regex capable of selecting any ClickCrystals script command.
+```
+```yml
+Name: scripting
+Usage: scripting -json
+Description: Generates and copies to your clipboard a Json Object representing the Format class for your script regex parser.
+```
 
 
 ### How to Use?
