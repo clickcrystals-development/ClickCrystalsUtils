@@ -7,6 +7,6 @@ public class LiteralGroupComponent extends AbstractGroupComponent {
     }
 
     public LiteralGroupComponent() {
-        super("(\\w+)");
+        super("(\\S+)");
     }
 }

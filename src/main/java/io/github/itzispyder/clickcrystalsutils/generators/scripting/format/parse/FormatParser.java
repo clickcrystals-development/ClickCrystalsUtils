@@ -7,6 +7,7 @@ import io.github.itzispyder.clickcrystalsutils.generators.scripting.format.compo
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -23,6 +24,7 @@ import java.util.regex.Pattern;
         <int>               integer
         <num>               number
         <comparator>        > < == >= <= !=
+        <identifier>        :direct_identifier OR #indirect_identifier
         ...                 literal
         "..."               quoted literal
         \w+                 constant literal
@@ -35,10 +37,11 @@ public class FormatParser {
     private static final List<ComponentLookup<?>> componentDictionary = new ArrayList<>() {{
         this.add(new ComponentLookup<>("<int>\\??", arg -> ComponentLookup.withOptional(arg, new IntegerGroupComponent())));
         this.add(new ComponentLookup<>("<num>\\??", arg -> ComponentLookup.withOptional(arg, new NumberGroupComponent())));
+        this.add(new ComponentLookup<>("<comparator>\\??", arg -> ComponentLookup.withOptional(arg, new ComparatorGroupComponent())));
+        this.add(new ComponentLookup<>("<identifier>\\??", arg -> ComponentLookup.withOptional(arg, new IdentifierGroupComponent())));
         this.add(new ComponentLookup<>("...\\??", arg -> ComponentLookup.withOptional(arg, new LiteralGroupComponent())));
         this.add(new ComponentLookup<>("\"...\"\\??", arg -> ComponentLookup.withOptional(arg, new QuoteGroupComponent())));
         this.add(new ComponentLookup<>("\\w+\\??", arg -> ComponentLookup.withOptional(arg, new LiteralGroupComponent(arg))));
-        this.add(new ComponentLookup<>("<comparator>\\??", arg -> ComponentLookup.withOptional(arg, new ComparatorGroupComponent())));
         this.add(new ComponentLookup<>("\\((\\w+\\|?)+\\)\\??", arg -> {
             Matcher matcher = Pattern.compile("(\\w+)\\|?").matcher(arg);
             List<String> matches = new ArrayList<>();
@@ -73,27 +76,44 @@ public class FormatParser {
             br.close();
             fr.close();
         }
-        catch (Exception ex) {
+        catch (IOException | FormatParseException ex) {
+            if (ex instanceof FormatParseException formatParseException) {
+                formatParseException.setFile(input);
+                throw formatParseException;
+            }
             throw new RuntimeException(ex);
         }
     }
 
     public static GroupComponent[] parse(String input) {
-        String[] arguments = input.split("\\s+");
-        GroupComponent[] components = new GroupComponent[arguments.length];
+        try {
+            String[] arguments = input.split("\\s+");
+            GroupComponent[] components = new GroupComponent[arguments.length];
 
-        for (int i = 0; i < arguments.length; i++) {
-            String argument = arguments[i];
-            GroupComponent component = parseComponent(argument);
-            components[i] = component;
+            for (int i = 0; i < arguments.length; i++) {
+                String argument = arguments[i];
+                GroupComponent component = parseComponent(argument);
+                components[i] = component;
+            }
+            return components;
         }
-        return components;
+        catch (FormatParseException ex) {
+            ex.setCapturedGroup(input);
+            throw ex;
+        }
     }
 
     private static GroupComponent parseComponent(String argument) {
-        for (ComponentLookup<?> lookup : componentDictionary)
-            if (lookup.matches(argument))
-                return lookup.parse(argument);
-        return null;
+        try {
+            for (ComponentLookup<?> lookup : componentDictionary)
+                if (lookup.matches(argument))
+                    return lookup.parse(argument);
+            throw new IllegalArgumentException("No such component lookup");
+        }
+        catch (Exception ex) {
+            FormatParseException formatParseException = new FormatParseException(ex.getMessage());
+            formatParseException.setCapturedComponent(argument);
+            throw formatParseException;
+        }
     }
 }

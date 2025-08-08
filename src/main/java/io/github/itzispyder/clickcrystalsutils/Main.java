@@ -3,6 +3,7 @@ package io.github.itzispyder.clickcrystalsutils;
 import io.github.itzispyder.clickcrystalsutils.generators.mobheads.MobHeadGenerator;
 import io.github.itzispyder.clickcrystalsutils.generators.moduletable.ModuleTableGenerator;
 import io.github.itzispyder.clickcrystalsutils.generators.packetlist.PacketListGenerator;
+import io.github.itzispyder.clickcrystalsutils.generators.scripting.ScriptDocsGenerator;
 import io.github.itzispyder.clickcrystalsutils.generators.versionmappings.VersionMappingsGenerator;
 
 public class Main {
@@ -14,6 +15,7 @@ public class Main {
         Generator gen;
 
         switch (operation) {
+            case "scripting", "script", "scripts" -> gen = new ScriptDocsGenerator();
             case "module-table", "modules" -> gen = new ModuleTableGenerator();
             case "versions", "version-mappings" -> gen = new VersionMappingsGenerator();
             case "packet-code", "packets" -> {
