@@ -77,8 +77,9 @@ public class Documentation {
                 | (\\w+\\|\\w+\\|...) | constant literals                           |                                     |                   |
                 | {}              | command line or code block of command lines |                                     | say "Hello World" |
                 
-                **The argument is optional if a ? is appended at the end. Any argument symbol followed by a question mark 
-                will render said argument optional, meaning the script interpreter will not throw an error if it was absent.**
+                ### Optional Argument Symbols
+                The argument is optional if a ? is appended at the end. Any argument symbol followed by a question mark 
+                will render said argument optional, meaning the script interpreter will not throw an error if it was absent.
                 
                 ### What is a Command Line?
                 A script command line is any instruction that'll tell your Minecraft client what to do.
