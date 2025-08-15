@@ -1,0 +1,1 @@
+xcopy "C:\Users\Little Bunny\IdeaProjects\ClickCrystalsUtils\build\libs\ClickCrystalsUtils-1.4.jar" "C:\Users\Little Bunny\IdeaProjects\ClickCrystals\ClickCrystalsUtils-1.4.jar" /Y

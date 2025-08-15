@@ -18,8 +18,9 @@ public class Main {
             case "scripting", "script", "scripts" -> {
                 _assert(args.length >= 2, "Please provide a generation mode! ex. -regex OR -json");
                 switch (args[1]) {
-                    case "-regex", "-raw" -> gen = new ScriptDocsGenerator(false);
-                    case "-json" -> gen = new ScriptDocsGenerator(true);
+                    case "-regex", "-raw" -> gen = new ScriptDocsGenerator(ScriptDocsGenerator.Mode.REGEX);
+                    case "-json" -> gen = new ScriptDocsGenerator(ScriptDocsGenerator.Mode.JSON);
+                    case "-files", "-docs" -> gen = new ScriptDocsGenerator(ScriptDocsGenerator.Mode.FILES);
                     default -> throw new IllegalArgumentException("unsupported operation: " + args[1]);
                 }
             }

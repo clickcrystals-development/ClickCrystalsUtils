@@ -30,6 +30,7 @@ import java.util.regex.Pattern;
         "..."               quoted literal
         \w+                 constant literal
         (\w+|\w+|...)       constant literals
+        {}                  command line or code block of command lines
 
         the argument is optional if a ? is appended at the end
  */
@@ -51,6 +52,7 @@ public class FormatParser {
             return ComponentLookup.withOptional(arg, new MultiLiteralGroupComponent(matches));
         }));
         this.add(new ComponentLookup<>("<(x|y|z|pitch|yaw|vec)>\\??", arg -> ComponentLookup.withOptional(arg, new VectorValueGroupComponent())));
+        this.add(new ComponentLookup<>("\\{\\}\\??", arg -> ComponentLookup.withOptional(arg, new FillerGroupComponent())));
     }};
 
     public static void register(Format destination, String input) {
@@ -61,22 +63,29 @@ public class FormatParser {
     }
 
     public static void registerFileComments(Format destination, File input) {
+        for (String comment: readFileComments(input))
+            register(destination, comment);
+    }
+
+    public static List<String> readFileComments(File input) {
         String regex = "//\\s*@Format\\s+(?<documentation>(\\S+\\s*)+)\\s*";
         Pattern pattern = Pattern.compile(regex);
 
         try {
             FileReader fr = new FileReader(input);
             BufferedReader br = new BufferedReader(fr);
+            List<String> lines = new ArrayList<>();
             String line;
 
             while ((line = br.readLine()) != null) {
                 Matcher matcher = pattern.matcher(line);
                 if (matcher.find())
-                    register(destination, matcher.group("documentation"));
+                    lines.add(matcher.group("documentation"));
             }
 
             br.close();
             fr.close();
+            return lines;
         }
         catch (IOException | FormatParseException ex) {
             if (ex instanceof FormatParseException formatParseException) {

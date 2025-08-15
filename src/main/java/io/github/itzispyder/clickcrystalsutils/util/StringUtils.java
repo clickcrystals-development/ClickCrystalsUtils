@@ -15,4 +15,12 @@ public class StringUtils {
             return s.toUpperCase();
         return s.substring(0, 1).toUpperCase() + s.substring(1);
     }
+
+    public static String capitalizeWords(String s) {
+        s = s.replaceAll("[_-]"," ");
+        String[] sArray = s.split(" ");
+        StringBuilder sb = new StringBuilder();
+        for (String str : sArray) sb.append(capitalize(str)).append(" ");
+        return sb.toString().trim();
+    }
 }

@@ -56,6 +56,11 @@ Name: scripting
 Usage: scripting -json
 Description: Generates and copies to your clipboard a Json Object representing the Format class for your script regex parser.
 ```
+```yml
+Name: scripting
+Usage: scripting -files
+Description: Generates an entire file tree consisting of all necessary documentation files for CCS scripting.
+```
 
 
 ### How to Use?
@@ -73,4 +78,3 @@ Then in terminal:
 ```
 
 Happy ClickCrystals coding!
-
