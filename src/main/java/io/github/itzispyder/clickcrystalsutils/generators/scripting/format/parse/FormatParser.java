@@ -43,20 +43,22 @@ public class FormatParser {
         this.add(new ComponentLookup<>("<num>\\??", arg -> ComponentLookup.withOptional(arg, new NumberGroupComponent())));
         this.add(new ComponentLookup<>("<comparator>\\??", arg -> ComponentLookup.withOptional(arg, new ComparatorGroupComponent())));
         this.add(new ComponentLookup<>("<identifier>\\??", arg -> ComponentLookup.withOptional(arg, new IdentifierGroupComponent())));
-        this.add(new ComponentLookup<>("...\\??", arg -> ComponentLookup.withOptional(arg, new LiteralGroupComponent())));
-        this.add(new ComponentLookup<>("\"...\"\\??", arg -> ComponentLookup.withOptional(arg, new QuoteGroupComponent())));
-        this.add(new ComponentLookup<>("!?\\w+\\??", arg -> ComponentLookup.withOptional(arg, new LiteralGroupComponent(arg))));
-        this.add(new ComponentLookup<>("\\((!?\\w+\\|?)+\\)\\??", arg -> {
-            Matcher matcher = Pattern.compile("(\\w+)\\|?").matcher(arg);
-            List<String> matches = new ArrayList<>();
-            while (matcher.find())
-                matches.add(matcher.group(1));
-            return ComponentLookup.withOptional(arg, new MultiLiteralGroupComponent(matches));
-        }));
         this.add(new ComponentLookup<>("<(x|y|z|pitch|yaw|vec)>\\??", arg -> ComponentLookup.withOptional(arg, new VectorValueGroupComponent())));
         this.add(new ComponentLookup<>("\\{\\}\\??", arg -> ComponentLookup.withOptional(arg, new FillerGroupComponent())));
         this.add(new ComponentLookup<>("<server-packet>\\??", arg -> ComponentLookup.withOptional(arg, new NetworkServerPacketGroupComponent())));
         this.add(new ComponentLookup<>("<client-packet>\\??", arg -> ComponentLookup.withOptional(arg, new NetworkClientPacketGroupComponent())));
+
+        this.add(new ComponentLookup<>("!?\\w+\\??", arg -> ComponentLookup.withOptional(arg, new LiteralGroupComponent(arg))));
+        this.add(new ComponentLookup<>("\\((!?\\w+\\|?)+\\)\\??", arg -> {
+            Matcher matcher = Pattern.compile("(\\w+)\\|?").matcher(arg);
+            List<String> matches = new ArrayList<>();
+            while (matcher.find()) {
+                matches.add(matcher.group(1));
+            }
+            return ComponentLookup.withOptional(arg, new MultiLiteralGroupComponent(matches));
+        }));
+        this.add(new ComponentLookup<>("...\\??", arg -> ComponentLookup.withOptional(arg, new LiteralGroupComponent())));
+        this.add(new ComponentLookup<>("\"...\"\\??", arg -> ComponentLookup.withOptional(arg, new QuoteGroupComponent())));
     }};
 
     public static void register(Format destination, String input) {
