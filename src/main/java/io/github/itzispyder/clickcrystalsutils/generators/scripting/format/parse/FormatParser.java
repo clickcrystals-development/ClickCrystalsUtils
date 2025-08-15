@@ -26,6 +26,8 @@ import java.util.regex.Pattern;
         <vec>               singular relative vector component              aka <x>,<y>,<z>,<pitch>,<yaw>
         <comparator>        > < == >= <= !=
         <identifier>        :direct_identifier OR #indirect_identifier
+        <client-packet>     client packet id
+        <server-packet>     server packet id
         ...                 literal
         "..."               quoted literal
         \w+                 constant literal
@@ -53,6 +55,8 @@ public class FormatParser {
         }));
         this.add(new ComponentLookup<>("<(x|y|z|pitch|yaw|vec)>\\??", arg -> ComponentLookup.withOptional(arg, new VectorValueGroupComponent())));
         this.add(new ComponentLookup<>("\\{\\}\\??", arg -> ComponentLookup.withOptional(arg, new FillerGroupComponent())));
+        this.add(new ComponentLookup<>("<server-packet>\\??", arg -> ComponentLookup.withOptional(arg, new NetworkServerPacketGroupComponent())));
+        this.add(new ComponentLookup<>("<client-packet>\\??", arg -> ComponentLookup.withOptional(arg, new NetworkClientPacketGroupComponent())));
     }};
 
     public static void register(Format destination, String input) {

@@ -1,7 +1,9 @@
 package io.github.itzispyder.clickcrystalsutils.generators.scripting.docs;
 
 import com.google.gson.GsonBuilder;
+import io.github.itzispyder.clickcrystalsutils.generators.packetlist.PacketListGenerator;
 import io.github.itzispyder.clickcrystalsutils.generators.scripting.format.Format;
+import io.github.itzispyder.clickcrystalsutils.generators.versionmappings.VersionMappingsGenerator;
 import io.github.itzispyder.clickcrystalsutils.util.FileValidationUtils;
 import io.github.itzispyder.clickcrystalsutils.util.StringFormatter;
 
@@ -48,6 +50,7 @@ public class Documentation {
         this.generateLegendFile();
         this.generateFormatJson(format);
         this.generateFormatRegex(format);
+        this.generateNetworkPacketFile();
     }
 
     private void generateLegendFile() {
@@ -70,18 +73,20 @@ public class Documentation {
 
                 ### Legend Table
                 
-                | Symbol          | Meaning                                     | Aliases                             | Example           |
-                |-----------------|---------------------------------------------|-------------------------------------|-------------------|
-                | \\<int\\>         | integer                                     |                                     | 123               |
-                | \\<num\\>         | number                                      |                                     | 1.23              |
-                | \\<vec\\>         | singular relative vector component          | \\<x\\>,\\<y\\>,\\<z\\>,\\<pitch\\>,\\<yaw\\> | ~1.23             |
-                | \\<comparator\\>  | \\> < == >= <= !=                            |                                     | >=                |
-                | \\<identifier\\>  | :direct_identifier OR #indirect_identifier  |                                     | :diamond_sword    |
-                | ...             | literal                                     |                                     | abc               |
-                | "..."           | quoted literal                              |                                     | "a b c"           |
-                | \\w+             | constant literal                            |                                     |                   |
-                | (\\w+\\|\\w+\\|...) | constant literals                           |                                     |                   |
-                | {}              | command line or code block of command lines |                                     | say "Hello World" |
+                | Symbol            | Meaning                                     | Aliases                             | Example           |
+                |-------------------|---------------------------------------------|-------------------------------------|-------------------|
+                | \\<int\\>           | integer                                     |                                     | 123               |
+                | \\<num\\>           | number                                      |                                     | 1.23              |
+                | \\<vec\\>           | singular relative vector component          | \\<x\\>,\\<y\\>,\\<z\\>,\\<pitch\\>,\\<yaw\\> | ~1.23             |
+                | \\<comparator\\>    | \\> < == >= <= !=                            |                                     | >=                |
+                | \\<identifier\\>    | :direct_identifier OR #indirect_identifier  |                                     | :diamond_sword    |
+                | \\<server-packet\\> | [server packet](./network_packets.md)        |                                     | playerList        |
+                | \\<client-packet\\> | [client packet](./network_packets.md)        |                                     | handSwing         |
+                | ...               | literal                                     |                                     | abc               |
+                | "..."             | quoted literal                              |                                     | "a b c"           |
+                | \\w+               | constant literal                            |                                     |                   |
+                | (\\w+\\|\\w+\\|...)   | constant literals                           |                                     |                   |
+                | {}                | command line or code block of command lines |                                     | say "Hello World" |
                 
                 ### Optional Argument Symbols
                 The argument is optional if a ? is appended at the end. Any argument symbol followed by a question mark 
@@ -158,5 +163,35 @@ public class Documentation {
         File file = new File("DOCUMENTATION/regex.txt");
         FileValidationUtils.validate(file);
         FileValidationUtils.quickWrite(file, format.getAcceptingRegex());
+    }
+
+    private void generateNetworkPacketFile() {
+        System.out.println("<- generating network_packets.md");
+
+        File file = new File("DOCUMENTATION/network_packets.md");
+        FileValidationUtils.validate(file);
+
+        VersionMappingsGenerator versions = new VersionMappingsGenerator();
+        PacketListGenerator packets = new PacketListGenerator(versions.fetchLatestMcVersion(), true);
+        StringFormatter formatter = new StringFormatter();
+
+        formatter.def("table", packets.generateTable());
+
+        FileValidationUtils.quickWrite(file, formatter.format("""
+                [<-- Back to Legend](./legend.md)
+
+                # Network Packets
+                There are two types of network packets in Minecraft:
+                - Client to Server (c2s)
+                - Server to Client (s2c)
+                
+                For the arguments that you saw in our [scripting legend](../legend.md), these 
+                network packets are what represent the `<client-packet>` and `<server-packet>` respectively.
+                
+                ### Packet ID Table
+                Here's a table of what those network packet arguments should be:
+                
+                ${table}
+                """));
     }
 }

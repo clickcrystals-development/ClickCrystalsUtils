@@ -30,6 +30,14 @@ public class PacketListGenerator implements Generator {
             return generateCode();
     }
 
+    public List<String> generateC2SList() {
+        return requestPackets(C2S).stream().map(Info::id).toList();
+    }
+
+    public List<String> generateS2CList() {
+        return requestPackets(S2C).stream().map(Info::id).toList();
+    }
+
     public String generateTable() {
         StringBuilder result = new StringBuilder();
 

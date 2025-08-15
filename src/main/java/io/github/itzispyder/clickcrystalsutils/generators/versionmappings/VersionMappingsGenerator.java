@@ -66,6 +66,10 @@ public class VersionMappingsGenerator implements Generator {
         }
     }
 
+    public String fetchLatestMcVersion() {
+        return fetchMcVersions().get(0);
+    }
+
     public JsonObject fetchVersionMapping() {
         try {
             URL url = URI.create(CC_VERSION_MAPPINGS).toURL();
