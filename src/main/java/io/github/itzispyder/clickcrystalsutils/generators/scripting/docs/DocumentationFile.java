@@ -78,7 +78,7 @@ public class DocumentationFile {
         if (rawName == null) {
             rawName = rawComment.split("\\s+")[0];
             name = StringUtils.capitalizeWords(rawName);
-            path = "assets/scripting/commands/%s.md".formatted(rawName);
+            path = "DOCUMENTATION/commands/%s.md".formatted(rawName);
             System.out.printf("=> Initializing documentation '%s'%n", name);
         }
         else if (!rawComment.startsWith(rawName)) {

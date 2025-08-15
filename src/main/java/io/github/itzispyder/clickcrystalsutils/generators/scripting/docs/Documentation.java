@@ -1,5 +1,7 @@
 package io.github.itzispyder.clickcrystalsutils.generators.scripting.docs;
 
+import com.google.gson.GsonBuilder;
+import io.github.itzispyder.clickcrystalsutils.generators.scripting.format.Format;
 import io.github.itzispyder.clickcrystalsutils.util.FileValidationUtils;
 import io.github.itzispyder.clickcrystalsutils.util.StringFormatter;
 
@@ -39,15 +41,19 @@ public class Documentation {
         }
     }
 
-    public void generateFiles() {
+    public void generateFiles(Format format) {
         for (DocumentationFile file : files.values()) {
             file.generateContents();
         }
         this.generateLegendFile();
+        this.generateFormatJson(format);
+        this.generateFormatRegex(format);
     }
 
     private void generateLegendFile() {
-        File file = new File("assets/scripting/legend.md");
+        System.out.println("<- generating legend.md");
+
+        File file = new File("DOCUMENTATION/legend.md");
         FileValidationUtils.validate(file);
 
         StringBuilder builder = new StringBuilder();
@@ -136,5 +142,21 @@ public class Documentation {
                 
                 Happy coding and cpvping!
                 """));
+    }
+
+    private void generateFormatJson(Format format) {
+        System.out.println("<- generating format.json");
+
+        File file = new File("DOCUMENTATION/format.json");
+        FileValidationUtils.validate(file);
+        FileValidationUtils.quickWrite(file, new GsonBuilder().serializeNulls().setPrettyPrinting().create().toJson(format));
+    }
+
+    private void generateFormatRegex(Format format) {
+        System.out.println("<- generating regex.txt");
+
+        File file = new File("DOCUMENTATION/regex.txt");
+        FileValidationUtils.validate(file);
+        FileValidationUtils.quickWrite(file, format.getAcceptingRegex());
     }
 }

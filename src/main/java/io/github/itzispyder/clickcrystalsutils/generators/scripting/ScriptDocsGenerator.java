@@ -28,16 +28,16 @@ public class ScriptDocsGenerator implements Generator {
         switch (mode) {
             case JSON -> content = new GsonBuilder().serializeNulls().setPrettyPrinting().create().toJson(format);
             case REGEX -> content = format.getAcceptingRegex();
-            case FILES -> content = generateDocumentationFolder();
+            case FILES -> content = generateDocumentationFolder(format);
             default -> content = "null";
         }
         return content;
     }
 
-    public String generateDocumentationFolder() {
+    public String generateDocumentationFolder(Format format) {
         Documentation documentation = new Documentation();
         this.forEachSourceFile(it -> FormatParser.readFileComments(it).forEach(documentation::registerComment));
-        documentation.generateFiles();
+        documentation.generateFiles(format);
         return "";
     }
 
