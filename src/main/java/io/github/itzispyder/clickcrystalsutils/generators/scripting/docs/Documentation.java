@@ -171,8 +171,6 @@ public class Documentation {
         File file = new File("DOCUMENTATION/code_block_openers.txt");
         List<String> results = new ArrayList<>();
 
-        System.out.println("EEEEE: " + format.getCodeBlockOpeners().size());
-
         for (FormatGroup group : format.getCodeBlockOpeners())
             for (String name : group.getLeadingNames())
                 if (!results.contains(name))
