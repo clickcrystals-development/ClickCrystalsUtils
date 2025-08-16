@@ -30,8 +30,8 @@ public class DocumentationFile {
     public void generateContents() {
         File file = new File(path);
         if (file.exists()) {
-            System.out.printf("<- file '%s' already exists, skipping%n", path);
-            return;
+            System.out.printf("<- file '%s' already exists, overwriting%n", path);
+//            return;
         }
         if (!FileValidationUtils.validate(file)) {
             System.out.printf("<- file creation failed for '%s'%n", path);

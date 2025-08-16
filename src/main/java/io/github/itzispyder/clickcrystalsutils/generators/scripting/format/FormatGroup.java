@@ -9,10 +9,51 @@ import java.util.List;
 public class FormatGroup implements GroupComponent {
 
     private final List<GroupComponent> components;
-    private boolean optional;
+    private boolean optional, acceptingCodeBlocks;
 
-    private FormatGroup() {
+    private FormatGroup(boolean acceptingCodeBlocks) {
         this.components = new ArrayList<>();
+        this.acceptingCodeBlocks = acceptingCodeBlocks;
+    }
+
+    private List<GroupComponent> getLeadingLiterals() {
+        List<GroupComponent> literals = new ArrayList<>();
+        for (GroupComponent component : components) {
+            if (component instanceof LiteralGroupComponent || component instanceof MultiLiteralGroupComponent)
+                literals.add(component);
+            else break;
+        }
+
+        if (literals.isEmpty() || !literals.get(0).isLeading())
+            return new ArrayList<>();
+        return literals;
+    }
+
+    public List<String> getLeadingNames() {
+        List<GroupComponent> leadingComponents = this.getLeadingLiterals();
+        List<String> results = new ArrayList<>();
+        StringBuilder builder = new StringBuilder();
+
+        this.getLeadingNamesInternal(results, builder, leadingComponents, 0);
+        return results;
+    }
+
+    private void getLeadingNamesInternal(List<String> results, StringBuilder currentBuilder, List<GroupComponent> leadingLiterals, int index) {
+        for (int i = index; i < leadingLiterals.size(); i++) {
+            GroupComponent component = leadingLiterals.get(i);
+            if (component instanceof MultiLiteralGroupComponent literals) {
+                for (String literal : literals.getLiterals()) {
+                    StringBuilder nextBuilder = new StringBuilder(currentBuilder);
+                    nextBuilder.append(literal).append(' ');
+                    getLeadingNamesInternal(results, nextBuilder, leadingLiterals, i + 1);
+                }
+                return;
+            }
+            else if (component instanceof LiteralGroupComponent literal) {
+                currentBuilder.append(literal.getLiteral()).append(' ');
+            }
+        }
+        results.add(currentBuilder.toString().trim());
     }
 
     public void append(GroupComponent component) {
@@ -29,6 +70,14 @@ public class FormatGroup implements GroupComponent {
 
     public void clear() {
         components.clear();
+    }
+
+    public void setAcceptingCodeBlocks(boolean acceptingCodeBlocks) {
+        this.acceptingCodeBlocks = acceptingCodeBlocks;
+    }
+
+    public boolean isAcceptingCodeBlocks() {
+        return acceptingCodeBlocks;
     }
 
     @Override
@@ -62,6 +111,7 @@ public class FormatGroup implements GroupComponent {
 
     public static class FormatGroupBuilder {
         private final List<GroupComponent> components;
+        private boolean acceptingCodeBlocks;
 
         public FormatGroupBuilder() {
             this.components = new ArrayList<>();
@@ -162,8 +212,12 @@ public class FormatGroup implements GroupComponent {
             components.add(component);
         }
 
+        public void setAcceptingCodeBlocks(boolean acceptingCodeBlocks) {
+            this.acceptingCodeBlocks = acceptingCodeBlocks;
+        }
+
         public FormatGroup build() {
-            FormatGroup group = new FormatGroup();
+            FormatGroup group = new FormatGroup(acceptingCodeBlocks);
             components.forEach(group::append);
             return group;
         }

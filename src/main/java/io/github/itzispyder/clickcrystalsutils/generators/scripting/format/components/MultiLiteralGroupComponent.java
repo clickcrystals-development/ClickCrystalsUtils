@@ -12,7 +12,7 @@ public class MultiLiteralGroupComponent extends AbstractGroupComponent {
     }
 
     public List<String> getLiterals() {
-        Matcher matcher = Pattern.compile("(\\w+)\\|?").matcher(this.getAcceptingRegex());
+        Matcher matcher = Pattern.compile("(!?\\w+)\\|?").matcher(this.getAcceptingRegex());
         List<String> matches = new ArrayList<>();
         while (matcher.find())
             matches.add(matcher.group(1));

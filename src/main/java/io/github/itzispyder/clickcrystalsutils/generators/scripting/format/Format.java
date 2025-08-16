@@ -39,6 +39,10 @@ public class Format {
         };
     }
 
+    public List<FormatGroup> getCodeBlockOpeners() {
+        return new ArrayList<>(groups.stream().filter(FormatGroup::isAcceptingCodeBlocks).toList());
+    }
+
     public int size() {
         return groups.size();
     }

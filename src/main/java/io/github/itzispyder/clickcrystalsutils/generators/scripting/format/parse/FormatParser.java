@@ -50,7 +50,7 @@ public class FormatParser {
 
         this.add(new ComponentLookup<>("!?\\w+\\??", arg -> ComponentLookup.withOptional(arg, new LiteralGroupComponent(arg))));
         this.add(new ComponentLookup<>("\\((!?\\w+\\|?)+\\)\\??", arg -> {
-            Matcher matcher = Pattern.compile("(\\w+)\\|?").matcher(arg);
+            Matcher matcher = Pattern.compile("(!?\\w+)\\|?").matcher(arg);
             List<String> matches = new ArrayList<>();
             while (matcher.find()) {
                 matches.add(matcher.group(1));
@@ -65,6 +65,8 @@ public class FormatParser {
         FormatGroup.FormatGroupBuilder builder = destination.append();
         for (GroupComponent component : parse(input))
             builder.addComponent(component);
+        if (input.trim().endsWith("{}"))
+            builder.setAcceptingCodeBlocks(true);
         builder.build();
     }
 

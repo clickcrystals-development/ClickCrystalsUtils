@@ -3,14 +3,13 @@ package io.github.itzispyder.clickcrystalsutils.generators.scripting.docs;
 import com.google.gson.GsonBuilder;
 import io.github.itzispyder.clickcrystalsutils.generators.packetlist.PacketListGenerator;
 import io.github.itzispyder.clickcrystalsutils.generators.scripting.format.Format;
+import io.github.itzispyder.clickcrystalsutils.generators.scripting.format.FormatGroup;
 import io.github.itzispyder.clickcrystalsutils.generators.versionmappings.VersionMappingsGenerator;
 import io.github.itzispyder.clickcrystalsutils.util.FileValidationUtils;
 import io.github.itzispyder.clickcrystalsutils.util.StringFormatter;
 
 import java.io.File;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -51,6 +50,7 @@ public class Documentation {
         this.generateFormatJson(format);
         this.generateFormatRegex(format);
         this.generateNetworkPacketFile();
+        this.generateCodeBlockOpenersFile(format);
     }
 
     private void generateLegendFile() {
@@ -163,6 +163,23 @@ public class Documentation {
         File file = new File("DOCUMENTATION/regex.txt");
         FileValidationUtils.validate(file);
         FileValidationUtils.quickWrite(file, format.getAcceptingRegex());
+    }
+
+    private void generateCodeBlockOpenersFile(Format format) {
+        System.out.println("<- generating code_block_openers.txt");
+
+        File file = new File("DOCUMENTATION/code_block_openers.txt");
+        List<String> results = new ArrayList<>();
+
+        System.out.println("EEEEE: " + format.getCodeBlockOpeners().size());
+
+        for (FormatGroup group : format.getCodeBlockOpeners())
+            for (String name : group.getLeadingNames())
+                if (!results.contains(name))
+                    results.add(name);
+
+        FileValidationUtils.validate(file);
+        FileValidationUtils.quickWrite(file, String.join("\n", results));
     }
 
     private void generateNetworkPacketFile() {
