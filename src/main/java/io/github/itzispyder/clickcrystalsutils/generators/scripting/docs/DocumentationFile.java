@@ -42,7 +42,7 @@ public class DocumentationFile {
         formatter.def("name", name);
         formatter.def("rawName", rawName);
         formatter.def("regex", regex);
-        formatter.def("usages", String.join("\n", usages));
+        formatter.def("usages", String.join("\n", usages.stream().sorted().toList()));
         formatter.def("comments", "# " + String.join("\n# ", rawComments));
 
         String contents = formatter.format("""
