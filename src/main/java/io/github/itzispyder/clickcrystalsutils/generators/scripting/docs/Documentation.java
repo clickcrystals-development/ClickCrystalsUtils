@@ -80,8 +80,9 @@ public class Documentation {
                 | \\<vec\\>           | singular relative vector component          | \\<x\\>,\\<y\\>,\\<z\\>,\\<pitch\\>,\\<yaw\\> | ~1.23             |
                 | \\<comparator\\>    | \\> < == >= <= !=                            |                                     | >=                |
                 | \\<identifier\\>    | :direct_identifier OR #indirect_identifier  |                                     | :diamond_sword    |
-                | \\<server-packet\\> | [server packet](./network_packets.md)        |                                     | playerList        |
-                | \\<client-packet\\> | [client packet](./network_packets.md)        |                                     | handSwing         |
+                | \\<server-packet\\> | [server packet](./network_packets.md)       |                                     | playerList        |
+                | \\<client-packet\\> | [client packet](./network_packets.md)       |                                     | handSwing         |
+                | \\<input\\>         | an input type                               |                                     | attack            |
                 | ...               | literal                                     |                                     | abc               |
                 | "..."             | quoted literal                              |                                     | "a b c"           |
                 | \\w+               | constant literal                            |                                     |                   |

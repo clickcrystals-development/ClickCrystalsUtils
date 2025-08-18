@@ -1,6 +1,9 @@
 package io.github.itzispyder.clickcrystalsutils.util;
 
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
 
 public final class FileValidationUtils {
 
@@ -40,12 +43,10 @@ public final class FileValidationUtils {
 
     public static String quickRead(File file) {
         try {
-            FileReader fr = new FileReader(file);
-            BufferedReader br = new BufferedReader(fr);
-            String read = String.join(" ", br.lines().toArray(String[]::new));
-            br.close();
-            fr.close();
-            return read;
+            FileInputStream fis = new FileInputStream(file);
+            String content = new String(fis.readAllBytes());
+            fis.close();
+            return content;
         }
         catch (Exception ex) {
             return "";

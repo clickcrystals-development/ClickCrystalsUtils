@@ -13,7 +13,7 @@ public class NetworkClientPacketGroupComponent extends MultiLiteralGroupComponen
         super(getList());
     }
 
-    public static List<String> getList() {
+    private static List<String> getList() {
         if (list == null) {
             System.out.println("<= fetching MC versions");
             VersionMappingsGenerator versions = new VersionMappingsGenerator();

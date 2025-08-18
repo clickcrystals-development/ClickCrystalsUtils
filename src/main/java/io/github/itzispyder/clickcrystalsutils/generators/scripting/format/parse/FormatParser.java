@@ -28,6 +28,7 @@ import java.util.regex.Pattern;
         <identifier>        :direct_identifier OR #indirect_identifier
         <client-packet>     client packet id
         <server-packet>     server packet id
+        <input>             an input type
         ...                 literal
         "..."               quoted literal
         \w+                 constant literal
@@ -47,6 +48,7 @@ public class FormatParser {
         this.add(new ComponentLookup<>("\\{\\}\\??", arg -> ComponentLookup.withOptional(arg, new FillerGroupComponent())));
         this.add(new ComponentLookup<>("<server-packet>\\??", arg -> ComponentLookup.withOptional(arg, new NetworkServerPacketGroupComponent())));
         this.add(new ComponentLookup<>("<client-packet>\\??", arg -> ComponentLookup.withOptional(arg, new NetworkClientPacketGroupComponent())));
+        this.add(new ComponentLookup<>("<input>\\??", arg -> ComponentLookup.withOptional(arg, new InputTypeGroupComponent())));
 
         this.add(new ComponentLookup<>("!?\\w+\\??", arg -> ComponentLookup.withOptional(arg, new LiteralGroupComponent(arg))));
         this.add(new ComponentLookup<>("\\((!?\\w+\\|?)+\\)\\??", arg -> {
