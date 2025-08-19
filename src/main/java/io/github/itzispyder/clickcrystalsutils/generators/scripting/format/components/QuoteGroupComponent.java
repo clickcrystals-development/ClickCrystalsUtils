@@ -3,6 +3,6 @@ package io.github.itzispyder.clickcrystalsutils.generators.scripting.format.comp
 public class QuoteGroupComponent extends AbstractGroupComponent {
 
     public QuoteGroupComponent() {
-        super("(\\\".*?\\\")");
+        super("(\\\"((\\\\\\\")|[^\\\"])*\\\")");
     }
 }
