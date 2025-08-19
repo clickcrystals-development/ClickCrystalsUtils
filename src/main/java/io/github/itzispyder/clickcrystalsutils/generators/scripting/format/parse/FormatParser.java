@@ -67,7 +67,7 @@ public class FormatParser {
         FormatGroup.FormatGroupBuilder builder = destination.append();
         for (GroupComponent component : parse(input))
             builder.addComponent(component);
-        if (input.trim().endsWith("{}"))
+        if (input.matches("^.*\\{\\}\\??.*$"))
             builder.setAcceptingCodeBlocks(true);
         builder.build();
     }

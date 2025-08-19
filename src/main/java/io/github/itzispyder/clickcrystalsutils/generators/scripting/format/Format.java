@@ -28,6 +28,14 @@ public class Format {
         return this;
     }
 
+    public boolean has(FormatGroup target) {
+        String targetRegex = target.getAcceptingRegex();
+        for (FormatGroup group: new ArrayList<>(groups))
+            if (group.getAcceptingRegex().equals(targetRegex))
+                return true;
+        return false;
+    }
+
     public FormatGroup.FormatGroupBuilder append() {
         return new FormatGroup.FormatGroupBuilder() {
             @Override

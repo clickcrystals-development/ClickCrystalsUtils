@@ -14,7 +14,7 @@ public class LiteralGroupComponent extends AbstractGroupComponent {
     }
 
     public String getLiteral() {
-        Matcher matcher = Pattern.compile("\\((\\S+?)\\)").matcher(this.getAcceptingRegex());
+        Matcher matcher = Pattern.compile("\\((\\S+?)\\)\\??").matcher(this.getAcceptingRegex());
         if (!matcher.find())
             throw new IllegalArgumentException("malformed literal group component: " + this.getAcceptingRegex());
         return matcher.group(1);

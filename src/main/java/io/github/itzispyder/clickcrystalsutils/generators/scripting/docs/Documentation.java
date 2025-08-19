@@ -9,7 +9,9 @@ import io.github.itzispyder.clickcrystalsutils.util.FileValidationUtils;
 import io.github.itzispyder.clickcrystalsutils.util.StringFormatter;
 
 import java.io.File;
-import java.util.*;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -170,15 +172,15 @@ public class Documentation {
         System.out.println("<- generating code_block_openers.txt");
 
         File file = new File("DOCUMENTATION/code_block_openers.txt");
-        List<String> results = new ArrayList<>();
+        Format results = new Format();
 
         for (FormatGroup group : format.getCodeBlockOpeners())
-            for (String name : group.getLeadingNames())
-                if (!results.contains(name))
-                    results.add(name);
+            for (FormatGroup opener : group.getLeadingCodeBlockOpeners())
+                if (!results.has(opener))
+                    results.append(opener);
 
         FileValidationUtils.validate(file);
-        FileValidationUtils.quickWrite(file, String.join("\n", results));
+        FileValidationUtils.quickWrite(file, results.getAcceptingRegex());
     }
 
     private void generateNetworkPacketFile() {

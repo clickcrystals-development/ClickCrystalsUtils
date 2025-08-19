@@ -19,6 +19,8 @@ public class FormatGroup implements GroupComponent {
     private List<GroupComponent> getLeadingLiterals() {
         List<GroupComponent> literals = new ArrayList<>();
         for (GroupComponent component : components) {
+            if (component.isOptional())
+                break;
             if (component instanceof LiteralGroupComponent || component instanceof MultiLiteralGroupComponent)
                 literals.add(component);
             else break;
@@ -29,31 +31,31 @@ public class FormatGroup implements GroupComponent {
         return literals;
     }
 
-    public List<String> getLeadingNames() {
+    public List<FormatGroup> getLeadingCodeBlockOpeners() {
         List<GroupComponent> leadingComponents = this.getLeadingLiterals();
-        List<String> results = new ArrayList<>();
-        StringBuilder builder = new StringBuilder();
+        List<FormatGroup> results = new ArrayList<>();
+        FormatGroupBuilder builder = new FormatGroupBuilder();
 
         this.getLeadingNamesInternal(results, builder, leadingComponents, 0);
         return results;
     }
 
-    private void getLeadingNamesInternal(List<String> results, StringBuilder currentBuilder, List<GroupComponent> leadingLiterals, int index) {
+    private void getLeadingNamesInternal(List<FormatGroup> results, FormatGroupBuilder currentBuilder, List<GroupComponent> leadingLiterals, int index) {
         for (int i = index; i < leadingLiterals.size(); i++) {
             GroupComponent component = leadingLiterals.get(i);
             if (component instanceof MultiLiteralGroupComponent literals) {
                 for (String literal : literals.getLiterals()) {
-                    StringBuilder nextBuilder = new StringBuilder(currentBuilder);
-                    nextBuilder.append(literal).append(' ');
+                    FormatGroupBuilder nextBuilder = new FormatGroupBuilder(currentBuilder);
+                    nextBuilder.thenLiteral(literal);
                     getLeadingNamesInternal(results, nextBuilder, leadingLiterals, i + 1);
                 }
                 return;
             }
             else if (component instanceof LiteralGroupComponent literal) {
-                currentBuilder.append(literal.getLiteral()).append(' ');
+                currentBuilder.thenLiteral(literal.getLiteral());
             }
         }
-        results.add(currentBuilder.toString().trim());
+        results.add(currentBuilder.build());
     }
 
     public void append(GroupComponent component) {
@@ -115,6 +117,17 @@ public class FormatGroup implements GroupComponent {
 
         public FormatGroupBuilder() {
             this.components = new ArrayList<>();
+            this.acceptingCodeBlocks = false;
+        }
+
+        public FormatGroupBuilder(FormatGroup group) {
+            this.components = new ArrayList<>(group.components);
+            this.acceptingCodeBlocks = group.acceptingCodeBlocks;
+        }
+
+        public FormatGroupBuilder(FormatGroupBuilder group) {
+            this.components = new ArrayList<>(group.components);
+            this.acceptingCodeBlocks = group.acceptingCodeBlocks;
         }
 
         public FormatGroupBuilder thenInt(boolean optional) {
