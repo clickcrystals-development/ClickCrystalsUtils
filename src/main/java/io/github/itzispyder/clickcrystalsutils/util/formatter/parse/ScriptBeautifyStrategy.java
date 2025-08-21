@@ -27,8 +27,8 @@ public enum ScriptBeautifyStrategy {
         if (commandPattern != null && codeBlockOpenerPattern != null)
             return;
 
-        String commandRegex = fetch("https://raw.githubusercontent.com/clickcrystals-development/ClickCrystals/refs/heads/main/DOCUMENTATION/regex.txt");
-        String codeBlockOpenerRegex = fetch("https://raw.githubusercontent.com/clickcrystals-development/ClickCrystals/refs/heads/main/DOCUMENTATION/code_block_openers.txt");
+        String commandRegex = fetch("https://raw.githubusercontent.com/clickcrystals-development/ClickCrystalsScripting/refs/heads/master/DOCUMENTATION/regex.txt");
+        String codeBlockOpenerRegex = fetch("https://raw.githubusercontent.com/clickcrystals-development/ClickCrystalsScripting/refs/heads/master/DOCUMENTATION/code_block_openers.txt");
         commandPattern = Pattern.compile(commandRegex);
         codeBlockOpenerPattern = Pattern.compile(codeBlockOpenerRegex);
     }

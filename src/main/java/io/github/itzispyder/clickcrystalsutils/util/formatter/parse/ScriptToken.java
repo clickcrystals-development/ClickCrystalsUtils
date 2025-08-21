@@ -36,6 +36,29 @@ public class ScriptToken {
         return builder.toString();
     }
 
+    public String formatSingleLine() {
+        boolean isParent = !children.isEmpty();
+        StringBuilder builder = new StringBuilder();
+
+        if (value != null) {
+            builder.append(value.trim());
+            if (isParent)
+                builder.append(' ');
+            else
+                builder.append("; ");
+        }
+        if (isParent) {
+            if (value != null)
+                builder.append("{ ");
+            for (ScriptToken child : children)
+                if ((child.value != null && !child.value.isBlank()) || !child.children.isEmpty())
+                    builder.append(child.formatSingleLine());
+            if (value != null)
+                builder.append("} ");
+        }
+        return builder.toString();
+    }
+
     public String formatExpanded() {
         boolean isParent = !children.isEmpty();
         String indent = "   ".repeat(nestCount);
@@ -52,8 +75,10 @@ public class ScriptToken {
                 builder.append(indent).append('}');
         }
         else if (value != null) {
-            Matcher commandMatcher = ScriptBeautifyStrategy.getCommandPattern().matcher(value);
+            Pattern commandPattern = ScriptBeautifyStrategy.getCommandPattern();
             Pattern openerPattern = ScriptBeautifyStrategy.getCodeBlockOpenerPattern();
+            Matcher commandMatcher = commandPattern.matcher(value);
+
             int subNests = 0;
             while (commandMatcher.find()) {
                 String command = commandMatcher.group();
@@ -72,6 +97,6 @@ public class ScriptToken {
 
     @Override
     public String toString() {
-        return formatExpanded();
+        return formatDefault();
     }
 }

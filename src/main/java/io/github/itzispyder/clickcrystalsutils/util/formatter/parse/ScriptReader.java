@@ -5,10 +5,10 @@ public class ScriptReader {
     public static void main(String[] args) {
         String content = """
                 def module test
-                def desc "A module for \\"testing\\""
+                def desc "A module for testing"
                                 
                 on right_release if playing wait 0.05 {
-                    if holding :bow[flame] {
+                    if holding :bow[flame],:bow {
                         switch #rail
                                 
                         if target_block #air {
@@ -31,10 +31,11 @@ public class ScriptReader {
                 }
                 
                 def module s-tap
-                def desc S tap
+                def desc "S tap"
                 on left_click if holding #sword,#axe if target_entity :player input backward
                 
                 on tick if playing if input_active use if sneaking if jumping input attack
+                if playing if input_active use if sneaking if jumping input attack
                 """;
         ScriptReader reader = new ScriptReader(content);
         ScriptToken script = reader.parse();
