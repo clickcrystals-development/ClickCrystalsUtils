@@ -22,7 +22,7 @@ import java.util.regex.Pattern;
 
 public class VersionMappingsGenerator implements Generator {
 
-    private static final String MIN_VERSION = "1.20";
+    private static final String MIN_VERSION = "1.21";
 
     private final String FABRIC_MC_VERSIONS, CC_VERSION_MAPPINGS, GITHUB_RELEASES;
 
