@@ -1,21 +1,13 @@
 package io.github.itzispyder.clickcrystalsutils.generators.versionmappings;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
 import io.github.itzispyder.clickcrystalsutils.Generator;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -29,7 +21,8 @@ public class VersionMappingsGenerator implements Generator {
     private String latestVersion;
 
     public VersionMappingsGenerator() {
-        FABRIC_MC_VERSIONS = "https://maven.fabricmc.net/net/fabricmc/yarn/";
+//        FABRIC_MC_VERSIONS = "https://maven.fabricmc.net/net/fabricmc/yarn/";
+        FABRIC_MC_VERSIONS = "https://piston-meta.mojang.com/mc/game/version_manifest_v2.json";
         CC_VERSION_MAPPINGS = "https://itzispyder.github.io/clickcrystals/info.json";
         GITHUB_RELEASES = "https://api.github.com/repos/clickcrystals-development/ClickCrystals/releases?per_page=100";
     }
@@ -43,22 +36,21 @@ public class VersionMappingsGenerator implements Generator {
             List<String> list = new ArrayList<>();
 
             URL url = URI.create(FABRIC_MC_VERSIONS).toURL();
-            Document doc = Jsoup.parse(url, 0);
-            Elements elements = doc.select("pre > a");
-            Pattern buildVersionPattern = Pattern.compile("^([\\d\\.]+)\\+build\\.\\d+/");
+            InputStream is = url.openStream();
+            InputStreamReader isr = new InputStreamReader(is);
+            JsonObject json = JsonParser.parseReader(isr).getAsJsonObject();
 
-            for (Element a : elements) {
-                String text = a.text();
-                Matcher buildVersionMatcher = buildVersionPattern.matcher(text);
+            isr.close();
+            is.close();
 
-                if (!buildVersionMatcher.matches())
-                    continue;
-                String mcVersion = buildVersionMatcher.group(1);
-
-                if (!list.contains(mcVersion))
-                    list.add(mcVersion);
+            for (JsonElement version: json.getAsJsonArray("versions")) {
+                JsonObject verObj = version.getAsJsonObject();
+                JsonPrimitive type = verObj.getAsJsonPrimitive("type");
+                JsonPrimitive id = verObj.getAsJsonPrimitive("id");
+                if ("release".equals(type.getAsString()))
+                    list.add(id.getAsString());
             }
-            Collections.reverse(list);
+
             return list;
         }
         catch (Exception ex) {
@@ -140,7 +132,7 @@ public class VersionMappingsGenerator implements Generator {
         System.out.println("fetching versionMappings...");
         JsonObject mappings = fetchVersionMapping();
 
-        System.out.println("fetching fabricMinecraftVersions...");
+        System.out.println("fetching mojangMinecraftVersions...");
         System.out.println();
 
         for (String version: fetchMcVersions()) {
