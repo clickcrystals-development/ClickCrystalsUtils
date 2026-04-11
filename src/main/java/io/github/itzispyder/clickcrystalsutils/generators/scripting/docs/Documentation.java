@@ -51,7 +51,7 @@ public class Documentation {
         this.generateLegendFile();
         this.generateFormatJson(format);
         this.generateFormatRegex(format);
-        this.generateNetworkPacketFile();
+//        this.generateNetworkPacketFile();
         this.generateCodeBlockOpenersFile(format);
     }
 
