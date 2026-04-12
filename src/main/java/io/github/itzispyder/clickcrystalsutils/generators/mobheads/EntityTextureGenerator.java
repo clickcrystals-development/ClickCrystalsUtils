@@ -13,17 +13,13 @@ public class EntityTextureGenerator implements Generator {
         System.out.print("Enter Minecraft version: ");
         String minecraftVersion = scan.nextLine();
 
-        EntityTextureGenerator generator = new EntityTextureGenerator(minecraftVersion, GenType.RAW);
+        EntityTextureGenerator generator = new EntityTextureGenerator(minecraftVersion);
         generator.generateAndCopy();
     }
 
     private final EntityTextures textures;
-    private final GenType genType;
 
-    public enum GenType { RAW, DEFAULT, CODE }
-
-    public EntityTextureGenerator(String minecraftVersion, GenType genType) {
-        this.genType = genType;
+    public EntityTextureGenerator(String minecraftVersion) {
         this.textures = new EntityTextures(Version.ofString(minecraftVersion));
     }
 

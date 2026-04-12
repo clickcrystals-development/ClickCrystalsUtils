@@ -1,6 +1,6 @@
 package io.github.itzispyder.clickcrystalsutils;
 
-import io.github.itzispyder.clickcrystalsutils.generators.mobheads.MobHeadGenerator;
+import io.github.itzispyder.clickcrystalsutils.generators.mobheads.EntityTextureGenerator;
 import io.github.itzispyder.clickcrystalsutils.generators.moduletable.ModuleTableGenerator;
 import io.github.itzispyder.clickcrystalsutils.generators.packetlist.PacketListGenerator;
 import io.github.itzispyder.clickcrystalsutils.generators.scripting.ScriptDocsGenerator;
@@ -36,16 +36,7 @@ public class Main {
             }
             case "mob-heads", "mob-textures", "entity-textures", "entity-heads" -> {
                 _assert(args.length >= 2, "Please provide a Minecraft version! ex. -1.21");
-                MobHeadGenerator.GenType type = MobHeadGenerator.GenType.DEFAULT;
-                if (args.length == 2) {
-                    gen = new MobHeadGenerator(args[1].substring(1), type);
-                    break;
-                }
-                switch (args[2]) {
-                    case "-raw" -> type = MobHeadGenerator.GenType.RAW;
-                    case "-code" -> type = MobHeadGenerator.GenType.CODE;
-                }
-                gen = new MobHeadGenerator(args[1].substring(1), type);
+                gen = new EntityTextureGenerator(args[1].substring(1));
             }
             default -> gen = null;
         }
