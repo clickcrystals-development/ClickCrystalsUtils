@@ -47,13 +47,13 @@ public class Documentation {
     }
 
     public void generateFiles(Format format) {
+        this.generateNetworkPacketFile();
         for (DocumentationFile file : files.values()) {
             file.generateContents();
         }
         this.generateLegendFile();
         this.generateFormatJson(format);
         this.generateFormatRegex(format);
-//        this.generateNetworkPacketFile();
         this.generateCodeBlockOpenersFile(format);
     }
 
