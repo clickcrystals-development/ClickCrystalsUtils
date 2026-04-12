@@ -6,7 +6,7 @@ import io.github.itzispyder.clickcrystalsutils.generators.scripting.format.Forma
 import io.github.itzispyder.clickcrystalsutils.generators.scripting.format.FormatGroup;
 import io.github.itzispyder.clickcrystalsutils.generators.versionmappings.VersionMappingsGenerator;
 import io.github.itzispyder.clickcrystalsutils.util.FileValidationUtils;
-import io.github.itzispyder.clickcrystalsutils.util.StringFormatter;
+import io.github.itzispyder.clickcrystalsutils.util.nonstatic.StringFormatter;
 
 import java.io.File;
 import java.util.Comparator;

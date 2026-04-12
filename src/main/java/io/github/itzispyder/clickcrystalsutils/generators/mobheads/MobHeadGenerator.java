@@ -141,7 +141,7 @@ public class MobHeadGenerator implements Generator {
 
     private void deepDelete(File file) {
         if (!file.isDirectory()) {
-            file.delete();
+            while (!file.delete());
             return;
         }
 

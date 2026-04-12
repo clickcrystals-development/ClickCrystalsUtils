@@ -6,8 +6,8 @@ import io.github.itzispyder.clickcrystalsutils.generators.scripting.format.compo
 import io.github.itzispyder.clickcrystalsutils.generators.scripting.format.components.MultiLiteralGroupComponent;
 import io.github.itzispyder.clickcrystalsutils.generators.scripting.format.parse.FormatParser;
 import io.github.itzispyder.clickcrystalsutils.util.FileValidationUtils;
-import io.github.itzispyder.clickcrystalsutils.util.StringFormatter;
 import io.github.itzispyder.clickcrystalsutils.util.StringUtils;
+import io.github.itzispyder.clickcrystalsutils.util.nonstatic.StringFormatter;
 
 import java.io.File;
 import java.util.ArrayList;

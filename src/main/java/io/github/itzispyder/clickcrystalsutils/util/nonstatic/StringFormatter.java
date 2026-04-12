@@ -1,4 +1,4 @@
-package io.github.itzispyder.clickcrystalsutils.util;
+package io.github.itzispyder.clickcrystalsutils.util.nonstatic;
 
 import java.util.HashMap;
 import java.util.Map;
