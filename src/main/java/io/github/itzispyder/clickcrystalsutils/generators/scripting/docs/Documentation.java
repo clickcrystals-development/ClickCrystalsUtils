@@ -1,14 +1,16 @@
 package io.github.itzispyder.clickcrystalsutils.generators.scripting.docs;
 
 import com.google.gson.GsonBuilder;
-import io.github.itzispyder.clickcrystalsutils.generators.packetlist.PacketListGenerator;
 import io.github.itzispyder.clickcrystalsutils.generators.scripting.format.Format;
 import io.github.itzispyder.clickcrystalsutils.generators.scripting.format.FormatGroup;
-import io.github.itzispyder.clickcrystalsutils.generators.versionmappings.VersionMappingsGenerator;
 import io.github.itzispyder.clickcrystalsutils.util.FileValidationUtils;
 import io.github.itzispyder.clickcrystalsutils.util.nonstatic.StringFormatter;
 
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
@@ -187,30 +189,13 @@ public class Documentation {
     private void generateNetworkPacketFile() {
         System.out.println("<- generating network_packets.md");
 
-        File file = new File("DOCUMENTATION/network_packets.md");
-        FileValidationUtils.validate(file);
-
-        VersionMappingsGenerator versions = new VersionMappingsGenerator();
-        PacketListGenerator packets = new PacketListGenerator(versions.fetchLatestMcVersion(), true);
-        StringFormatter formatter = new StringFormatter();
-
-        formatter.def("table", packets.generateTable());
-
-        FileValidationUtils.quickWrite(file, formatter.format("""
-                [<-- Back to Legend](./legend.md)
-
-                # Network Packets
-                There are two types of network packets in Minecraft:
-                - Client to Server (c2s)
-                - Server to Client (s2c)
-                
-                For the arguments that you saw in our [scripting legend](./legend.md), these 
-                network packets are what represent the `<client-packet>` and `<server-packet>` respectively.
-                
-                ### Packet ID Table
-                Here's a table of what those network packet arguments should be:
-                
-                ${table}
-                """));
+        try {
+            Path dst = Paths.get("DOCUMENTATION/network_packets.md");
+            Path src = Paths.get("run/.clickcrystals/.data/network_packets.md");
+            Files.copy(src, dst, StandardCopyOption.REPLACE_EXISTING);
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }
