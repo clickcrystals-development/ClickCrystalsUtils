@@ -15,6 +15,7 @@ public class EntityTextureGenerator implements Generator {
 
         EntityTextureGenerator generator = new EntityTextureGenerator(minecraftVersion);
         generator.generateAndCopy();
+        System.out.println(generator.generate());
     }
 
     private final EntityTextures textures;
@@ -36,8 +37,8 @@ public class EntityTextureGenerator implements Generator {
         builder.append("""
                     | # | **Entity** | **ID** | **Icon** | **Texture** |
                     |:--|:-----------|:-------|:---------|:------------|
-                    
                     """.trim());
+        builder.append('\n');
 
         int ordinal = 0;
         for (Map.Entry<EntityTextures.EntityKey, String> entry : textures.getTextureData().entrySet())
